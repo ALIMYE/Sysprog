@@ -1,0 +1,14 @@
+#! /bin/bash
+
+# run the script like this:
+# $ chmod +x ./path/to/top
+# $ ./path/to/top 10 ./path/to/log.txt
+
+MYLIST ="$(cut -d[ -f2 $1 | cut -d] -f1 | cut -d: -f1 | sed 's/\//-/' | sed 's/Oct/10/'
+ | sed 's/\//-/' | sort -n | uniq -c | sort -nr | head -n $2 )"
+
+echo "$MYLIST" | awk 'BEGIN { n=0 } { sum+=$1; a[n]=$1; b[n]=$2; n++ } END
+ {for(i=0; i<n; i++) printf("%d. %s - %d - %0.1f%s\n",i+1,b[i],a[i],a[i]*100/sum, "%")}'
+
+# e.g.
+cut -d' ' -f1 $2 | head -$1 | cat -n
